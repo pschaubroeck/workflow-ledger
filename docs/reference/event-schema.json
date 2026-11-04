@@ -1,0 +1,170 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "urn:workflow-ledger:event-record:2",
+  "title": "Workflow Ledger OpenTelemetry Log Record",
+  "description": "JSON Lines representation of an OpenTelemetry Logs data model record, with Workflow Ledger extensions in Resource and Attributes.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "Timestamp",
+    "SeverityText",
+    "SeverityNumber",
+    "EventName",
+    "Resource",
+    "InstrumentationScope",
+    "Attributes"
+  ],
+  "properties": {
+    "Timestamp": {"$ref": "#/$defs/timestamp"},
+    "ObservedTimestamp": {"$ref": "#/$defs/timestamp"},
+    "TraceId": {"type": "string", "pattern": "^(?!0{32}$)[0-9a-f]{32}$"},
+    "SpanId": {"type": "string", "pattern": "^(?!0{16}$)[0-9a-f]{16}$"},
+    "SeverityText": {"enum": ["TRACE", "DEBUG", "INFO", "WARN", "ERROR", "FATAL"]},
+    "SeverityNumber": {"enum": [1, 5, 9, 13, 17, 21]},
+    "Body": {"type": "string", "maxLength": 1024},
+    "Resource": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["Attributes"],
+      "properties": {
+        "Attributes": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["workflow_ledger.harness"],
+          "properties": {
+            "workflow_ledger.harness": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 256,
+              "pattern": "^[^\\u0000-\\u001f]*$"
+            }
+          }
+        }
+      }
+    },
+    "InstrumentationScope": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["Name"],
+      "properties": {"Name": {"const": "workflow-ledger"}}
+    },
+    "Attributes": {
+      "type": "object",
+      "maxProperties": 67,
+      "required": [
+        "workflow_ledger.event_id",
+        "workflow_ledger.schema_version",
+        "workflow_ledger.associations"
+      ],
+      "properties": {
+        "workflow_ledger.event_id": {"type": "string", "pattern": "^(?!0{32}$)[0-9a-f]{32}$"},
+        "workflow_ledger.schema_version": {"const": 2},
+        "workflow_ledger.associations": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/association"}
+        }
+      },
+      "patternProperties": {
+        "^(?!workflow_ledger\\.)(?=.{1,128}$)[a-zA-Z][a-zA-Z0-9_.-]*$": {
+          "oneOf": [
+            {"type": "string", "maxLength": 1024, "pattern": "^[^\\u0000-\\u001f]*$"},
+            {"type": "integer", "minimum": -9223372036854775808, "maximum": 9223372036854775807},
+            {"type": "boolean"}
+          ]
+        }
+      },
+      "additionalProperties": false
+    },
+    "EventName": {"type": "string", "pattern": "^[a-z][a-z0-9_]*(\\.[a-z][a-z0-9_]*){1,7}$"}
+  },
+  "allOf": [
+    {
+      "if": {"required": ["TraceId"]},
+      "then": {"required": ["SpanId"]}
+    },
+    {
+      "if": {"required": ["SpanId"]},
+      "then": {"required": ["TraceId"]}
+    },
+    {
+      "if": {"properties": {"SeverityText": {"const": "TRACE"}}, "required": ["SeverityText"]},
+      "then": {"properties": {"SeverityNumber": {"const": 1}}
+      }
+    },
+    {
+      "if": {"properties": {"SeverityText": {"const": "DEBUG"}}, "required": ["SeverityText"]},
+      "then": {"properties": {"SeverityNumber": {"const": 5}}
+      }
+    },
+    {
+      "if": {"properties": {"SeverityText": {"const": "INFO"}}, "required": ["SeverityText"]},
+      "then": {"properties": {"SeverityNumber": {"const": 9}}
+      }
+    },
+    {
+      "if": {"properties": {"SeverityText": {"const": "WARN"}}, "required": ["SeverityText"]},
+      "then": {"properties": {"SeverityNumber": {"const": 13}}
+      }
+    },
+    {
+      "if": {"properties": {"SeverityText": {"const": "ERROR"}}, "required": ["SeverityText"]},
+      "then": {"properties": {"SeverityNumber": {"const": 17}}
+      }
+    },
+    {
+      "if": {"properties": {"SeverityText": {"const": "FATAL"}}, "required": ["SeverityText"]},
+      "then": {"properties": {"SeverityNumber": {"const": 21}}
+      }
+    }
+  ],
+  "$defs": {
+    "timestamp": {"type": "integer", "minimum": 0, "maximum": 18446744073709551615},
+    "association": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "identity", "state", "evidence"],
+      "properties": {
+        "kind": {"enum": ["workflow", "agent", "skill", "model", "tool", "wait"]},
+        "identity": {
+          "type": "object",
+          "additionalProperties": false,
+          "required": ["namespace", "logical_id", "provenance"],
+          "properties": {
+            "namespace": {"type": "string", "pattern": "^[A-Za-z0-9_.-]{1,64}$"},
+            "logical_id": {"type": "string", "minLength": 1, "maxLength": 256, "pattern": "^[^\\u0000-\\u001f]*$"},
+            "version": {"type": "string", "maxLength": 256, "pattern": "^[^\\u0000-\\u001f]*$"},
+            "provenance": {"enum": ["native", "caller_declared", "legacy"]}
+          }
+        },
+        "state": {"enum": ["configured", "loaded", "invoked"]},
+        "evidence": {"enum": ["native", "caller_declared", "contextual", "legacy"]},
+        "invocation_span_id": {"type": "string", "pattern": "^(?!0{16}$)[0-9a-f]{16}$"},
+        "invocation_trace_id": {"type": "string", "pattern": "^(?!0{32}$)[0-9a-f]{32}$"}
+      },
+      "allOf": [
+        {
+          "if": {"required": ["invocation_span_id"]},
+          "then": {"required": ["invocation_trace_id"]}
+        },
+        {
+          "if": {"required": ["invocation_trace_id"]},
+          "then": {"required": ["invocation_span_id"]}
+        },
+        {
+          "if": {"properties": {"state": {"enum": ["configured", "loaded"]}}, "required": ["state"]},
+          "then": {"not": {"required": ["invocation_span_id"]}}
+        },
+        {
+          "if": {
+            "properties": {
+              "state": {"const": "invoked"},
+              "evidence": {"enum": ["native", "caller_declared"]}
+            },
+            "required": ["state", "evidence"]
+          },
+          "then": {"required": ["invocation_span_id", "invocation_trace_id"]}
+        }
+      ]
+    }
+  }
+}

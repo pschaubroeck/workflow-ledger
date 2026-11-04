@@ -1,0 +1,3 @@
+# Exercise the core plus every supported optional adapter in the shared pipeline.
+pytest==8.4.2
+-e .[dev,otel,agents]

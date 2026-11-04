@@ -1,0 +1,12 @@
+[documentation]
+docs_root = "docs"
+audience = "user-facing"
+execution = "advisory"
+
+[documentation.links]
+mode = "offline"
+
+[documentation.topics]
+cli = "optional"
+examples = "optional"
+

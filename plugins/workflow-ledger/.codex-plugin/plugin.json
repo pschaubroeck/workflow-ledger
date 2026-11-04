@@ -1,0 +1,17 @@
+{
+  "name": "workflow-ledger",
+  "version": "0.3.0",
+  "description": "Shared skill execution markers and optional local Codex lifecycle observations.",
+  "author": {"name": "PS"},
+  "skills": "./skills/",
+  "hooks": "./hooks/hooks.json",
+  "interface": {
+    "displayName": "Workflow Ledger",
+    "shortDescription": "Observe selected agent work",
+    "longDescription": "Record explicit skill boundaries and supported Codex lifecycle events locally. Capture is disabled until configured; export is explicit.",
+    "developerName": "PS",
+    "category": "Productivity",
+    "capabilities": ["Read", "Write"],
+    "defaultPrompt": ["Use Workflow Ledger to inspect selected skill execution."]
+  }
+}

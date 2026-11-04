@@ -1,0 +1,12 @@
+include PLAN.md
+include AGENTS.md
+include .gitignore
+recursive-include docs *.md
+recursive-include docs *.json
+recursive-include examples *.json
+recursive-include examples *.py
+recursive-include benchmarks *.py
+recursive-include .agents/skills *.md *.yaml
+graft .agents/skills/workflow-ledger-operations
+recursive-include plugins *.json *.py
+recursive-include tools *.py

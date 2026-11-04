@@ -1,0 +1,4 @@
+interface:
+  display_name: "Workflow Ledger"
+  short_description: "Operate local workflow telemetry safely"
+  default_prompt: "Use $workflow-ledger-operations to inspect or operate this project's local telemetry."

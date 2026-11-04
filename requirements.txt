@@ -1,0 +1,5 @@
+# Build tools used by local development and GitHub Actions.
+setuptools==80.10.2
+setuptools-scm==9.2.2
+twine==6.2.0
+wheel==0.47.0

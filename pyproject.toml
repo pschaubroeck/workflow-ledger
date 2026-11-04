@@ -1,0 +1,37 @@
+[build-system]
+requires = ["setuptools==80.10.2", "setuptools-scm==9.2.2"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "workflow-ledger"
+dynamic = ["version"]
+description = "Local workflow ledger with optional OpenTelemetry export"
+readme = "README.md"
+requires-python = ">=3.10"
+dependencies = []
+
+[project.optional-dependencies]
+otel = ["opentelemetry-sdk==1.45.0", "opentelemetry-exporter-otlp-proto-http==1.45.0"]
+agents = ["openai-agents==0.23.1"]
+dev = ["pytest>=8,<10", "build>=1,<2", "ruff>=0.14,<1"]
+
+[project.scripts]
+workflow-ledger = "workflow_ledger.cli:main"
+workflow-ledger-marker = "workflow_ledger.sessions:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+pythonpath = ["."]
+
+[tool.ruff]
+target-version = "py310"
+line-length = 100
+
+[tool.ruff.lint]
+select = ["E4", "E7", "E9", "F"]
+
+[tool.setuptools_scm]
+fallback_version = "0.3.0"

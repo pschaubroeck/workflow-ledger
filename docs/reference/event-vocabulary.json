@@ -1,0 +1,60 @@
+{
+  "title": "Workflow Ledger shared event vocabulary",
+  "description": "Recommended caller-emitted operational event names and attributes. This catalog does not imply that Workflow Ledger emits these events.",
+  "vocabulary_version": 1,
+  "status": "initial",
+  "ownership": {
+    "event_names": "The agent.* names below are shared recommendations for caller instrumentation.",
+    "workflow_ledger_prefix": "Reserved for events emitted by the Workflow Ledger product itself.",
+    "custom_events": "Callers may use their own stable dotted namespace for events outside this catalog."
+  },
+  "attributes": {
+    "agent.operation.name": {
+      "type": "string",
+      "description": "Stable, low-cardinality name of the operation, not a request, user, or asset identifier."
+    },
+    "agent.retry.attempt": {
+      "type": "integer",
+      "minimum": 1,
+      "description": "One-based attempt number for the retry that is about to begin."
+    },
+    "agent.retry.reason": {
+      "type": "string",
+      "enum": ["timeout", "rate_limit", "unavailable", "other"],
+      "description": "Normalized reason for retrying; do not put exception messages or request content here."
+    },
+    "error.type": {
+      "type": "string",
+      "description": "Low-cardinality error class or stable error code. Reused from OpenTelemetry exception conventions; omit when unknown."
+    }
+  },
+  "events": [
+    {
+      "name": "agent.operation.retrying",
+      "severity": "WARN",
+      "when": "A retry decision has been made and another attempt is about to start.",
+      "required_attributes": ["agent.operation.name", "agent.retry.attempt", "agent.retry.reason"],
+      "optional_attributes": ["error.type"],
+      "span_relationship": "Record only the retry decision. The operation span represents the operation duration and final outcome."
+    },
+    {
+      "name": "agent.operation.failed",
+      "severity": "ERROR",
+      "when": "An operation has reached a terminal failure and cannot continue or recover.",
+      "required_attributes": ["agent.operation.name"],
+      "optional_attributes": ["error.type"],
+      "span_relationship": "Record a failure detail that is useful to query. The operation span remains the source for duration and outcome."
+    }
+  ],
+  "privacy": "Do not record prompts, responses, transcripts, tool arguments or results, credentials, arbitrary exception messages, or other source content by default.",
+  "otel_guidance": {
+    "general_event_conventions": "Development",
+    "error_type_attribute": "The OpenTelemetry error.type attribute is reused where applicable.",
+    "links": [
+      "https://opentelemetry.io/docs/specs/semconv/general/events/",
+      "https://opentelemetry.io/docs/specs/semconv/general/naming/",
+      "https://opentelemetry.io/docs/specs/semconv/registry/attributes/error/"
+    ],
+    "note": "This vocabulary is an Workflow Ledger recommendation, not an OpenTelemetry semantic convention. Recheck upstream convention maturity when revising this catalog."
+  }
+}

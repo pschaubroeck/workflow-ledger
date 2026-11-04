@@ -1,0 +1,10 @@
+{
+  "enabled": true,
+  "include": [
+    {"scope": "agent", "identity": "caller:example.included"},
+    {"scope": "skill", "identity": "caller:example.included.skill"}
+  ],
+  "exclude": [
+    {"scope": "agent", "identity": "caller:example.excluded"}
+  ]
+}
