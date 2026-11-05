@@ -3,6 +3,7 @@
 [![CI](https://github.com/pschaubroeck/workflow-ledger/actions/workflows/ci.yml/badge.svg)](https://github.com/pschaubroeck/workflow-ledger/actions/workflows/ci.yml)
 ![Python 3.10–3.14 tested](https://img.shields.io/badge/python-3.10%E2%80%933.14%20tested-3776AB?logo=python&logoColor=white)
 ![Core runtime dependencies: 0](https://img.shields.io/badge/core_runtime_dependencies-0-2ea44f)
+[![License: 0BSD](https://img.shields.io/badge/License-0BSD-blue.svg)](LICENSE)
 
 Measure agent workflows as linked operations: workflows, agents, skills, model
 calls, tools, and explicit waits. The core is a zero-dependency Python library
@@ -18,9 +19,9 @@ its scope.
 ## Set it up with an AI assistant
 
 Ask an AI assistant to check the Python environment you want to use, install the
-released package from its configured package index if needed, and help initialize
-local capture. The release is not published yet; until it is available, see the
-contributor section below for source-checkout steps.
+wheel from the [latest GitHub Release](https://github.com/pschaubroeck/workflow-ledger/releases/latest)
+if needed, and help initialize local capture. The assistant should ask before
+installing the downloaded package.
 
 Start with the [getting-started guide](docs/guides/getting-started.md) for a
 harness-neutral prompt and example conversation. The assistant helps confirm

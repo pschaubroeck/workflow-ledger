@@ -1,16 +1,16 @@
 ---
 type: guide
 title: Get started with Workflow Ledger
-description: Use an AI assistant to check or install the Python package release and initialize a harness-neutral local capture setup.
+description: Use an AI assistant to check or install the GitHub release wheel and initialize a harness-neutral local capture setup.
 ---
 
 # Get started with Workflow Ledger
 
-Ask an AI assistant to check the Python environment you want to use, install the
-released package from its configured package index if needed, then help choose
-and initialize local capture. Follow the instructions supplied with your
-release if the package source or authentication is not already configured.
-Don't put credentials in command history, documentation, or package-index URLs.
+Ask an AI assistant to check the Python environment you want to use, download
+the wheel from the [latest GitHub Release](https://github.com/pschaubroeck/workflow-ledger/releases/latest)
+if needed, then help choose and initialize local capture. Ask before installing
+the downloaded wheel. Releases are distributed as downloadable files; PyPI
+publishing is not configured.
 
 ## Contents
 
@@ -24,8 +24,7 @@ Don't put credentials in command history, documentation, or package-index URLs.
 ## Requirements
 
 - Python 3.10 or newer.
-- Access to the package index from which the release is provided, once it is
-  available.
+- Access to GitHub Releases to download the package wheel.
 - An AI assistant that can inspect the environment and run commands after you
   authorize them. This workflow is harness-agnostic; host-specific setup, such
   as Codex hooks, is documented in the corresponding integration guide.
@@ -40,12 +39,12 @@ to your assistant and review each proposed change before authorizing it.
 
 > Help me set up Workflow Ledger. First ask which Python environment I want
 > to use if that isn't clear, then check whether the package is available in
-> that environment. If it is missing, offer to install it with
-> `python -m pip install workflow-ledger`, using the package index already
-> configured for that environment. Ask before installing. Do not change package
-> index settings, inspect or print credentials, or put secrets in commands. If
-> the package source isn't configured or the release isn't available, ask me
-> for the release-provided instructions and stop before installation.
+> that environment. If it is missing, download the Python wheel from the
+> [latest GitHub Release](https://github.com/pschaubroeck/workflow-ledger/releases/latest)
+> and offer to install that local wheel with the selected Python interpreter.
+> Ask before installing. Do not change package-index settings, inspect or print
+> credentials, or put secrets in commands. If no compatible wheel is attached
+> to the release, stop and tell me what is missing.
 >
 > Use that same Python interpreter for all later commands, for example
 > `python -m workflow_ledger --help`. After installing, run this command
@@ -71,9 +70,8 @@ to your assistant and review each proposed change before authorizing it.
 ### Example AI response
 
 > The package isn't installed in the Python environment you selected. I can
-> install it with `python -m pip install workflow-ledger`, using that
-> environment's configured package index. I won't change package-index settings
-> or inspect or display credentials. May I install it?
+> download the wheel from the latest GitHub Release and install it into that
+> environment. May I install it?
 
 After you approve and the installation succeeds, the assistant can continue:
 
@@ -133,20 +131,14 @@ behavior.
 
 ## Install the release manually
 
-If you prefer to install the package yourself, use the package index and
-authentication method supplied with the release. Keep credentials in your
-approved credential manager or pip keyring integration, not in URLs, shell
-history, or repository files. Use the Python environment you intend the
-assistant to use:
+Download the `.whl` file from the [latest GitHub Release](https://github.com/pschaubroeck/workflow-ledger/releases/latest),
+then install it into the Python environment you intend the assistant to use:
 
 ```text
-python3 -m pip install workflow-ledger
+python3 -m pip install /path/to/downloaded-workflow-ledger.whl
 python3 -m workflow_ledger --help
 python3 -m workflow_ledger init --help
 ```
-
-If the release uses a non-default package index, follow its supplied
-instructions to configure or select that index.
 
 ## Manual setup
 

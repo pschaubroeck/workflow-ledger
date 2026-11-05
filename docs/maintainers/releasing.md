@@ -1,13 +1,13 @@
 ---
 type: guide
-title: Release the Python package
-description: Prepare a versioned Workflow Ledger source release and verify its GitHub Actions checks.
+title: Build and release package artifacts
+description: Build versioned Workflow Ledger wheel and source archives and attach them to a GitHub Release.
 ---
 
-# Release the Python package
+# Build and release package artifacts
 
-This guide covers source releases for the public Workflow Ledger repository.
-Automated package-index publishing is not configured.
+This guide builds a Python wheel and source archive for download from GitHub
+Releases. PyPI publishing is not configured.
 
 ## Before a release
 
@@ -15,17 +15,33 @@ Automated package-index publishing is not configured.
 - Confirm the GitHub Actions checks pass for the release commit.
 - Review the [compatibility reference](../reference/compatibility.md) and
   update it if supported behavior or dependencies changed.
-- Check the package metadata and generated distribution contents locally with
-  `python -m build`.
+- Confirm the project license and package metadata are correct.
+
+## Build the artifacts
+
+The package version comes from the Git tag. For a `0.3.0` release, create and
+push the `v0.3.0` tag on the verified commit, then build from that tagged tree:
+
+```text
+git switch main
+git pull --ff-only
+git tag v0.3.0
+git push origin v0.3.0
+git switch --detach v0.3.0
+python3 -m pip install build
+python3 -m build
+```
+
+The build creates a `.whl` and `.tar.gz` file in `dist/`. Review the filenames
+and verify the license is included in the source archive and package metadata.
 
 ## Publish a GitHub release
 
-Create a GitHub Release for the selected version tag and include concise release
-notes. The source archive is available from the GitHub release page. Do not
-describe the package as installable from a package index until publishing to
-that index has been configured and verified.
+Create a GitHub Release for the existing version tag, include concise release
+notes, and attach both files from `dist/`. GitHub also provides source-code
+archives for the tag. Users can download the wheel and install it with
+`python -m pip install /path/to/downloaded-wheel.whl`.
 
-Package-index publication, signing, provenance attestations, and release
-automation require their own setup and validation. Keep credentials out of
-repository files, workflow definitions, and shell history if those features
-are introduced.
+The current GitHub Actions workflow checks builds but does not publish or attach
+release artifacts. Package-index publication and automated release uploads are
+outside this process.

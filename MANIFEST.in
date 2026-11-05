@@ -1,4 +1,3 @@
-include PLAN.md
 include AGENTS.md
 include .gitignore
 recursive-include docs *.md

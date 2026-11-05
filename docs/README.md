@@ -8,10 +8,9 @@ description: Navigate user guides, measurement concepts, runtime integrations, r
 
 Use this index to choose a path through the repository documentation. The core
 library and its setup workflow are harness-agnostic; runtime-specific pages
-describe optional adapters and their verified limits. The released package is
-not published yet. The getting-started guide starts with an AI-assisted package
-check and setup, then presents manual installation and contributor checkout as
-secondary paths.
+describe optional adapters and their verified limits. The getting-started guide
+starts with an AI-assisted package check and setup, then presents manual
+installation from a GitHub Release and contributor checkout as secondary paths.
 
 ## Contents
 
@@ -24,8 +23,8 @@ secondary paths.
 ## Start here
 
 - [Getting started](guides/getting-started.md) — ask an AI assistant to check
-  or install the release from your configured package index and initialize a
-  harness-neutral local setup.
+  or install the wheel from a GitHub Release and initialize a harness-neutral
+  local setup.
 - [Skills and agents](guides/skills-and-agents.md) — initialize selected
   capture, optionally install the operations skill, and declare execution and
   wait boundaries with the shared marker command.
