@@ -28,10 +28,9 @@ before interpreting reports.
 
 ## Distribution status
 
-No package has been published yet, so installation from a release index and
-the installed-package bootstrap flow have not been validated against a
-released artifact. The package index and authentication method are
-distribution-specific. Local integration tests establish no live provider or
+The `v0.3.0` package release includes wheel and source-distribution artifacts;
+the installed-package smoke checks also run in GitHub Actions. PyPI publishing
+is not configured. Local integration tests establish no live provider or
 external backend compatibility.
 
 These implementation notes summarize the current scope; they are not a general

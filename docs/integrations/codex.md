@@ -13,11 +13,12 @@ core works without either path. They provide different evidence and
 aren't interchangeable.
 
 Install the Python package using the release instructions in
-[Getting started](../guides/getting-started.md). The package release is not
-published yet. Installing the Python package and running
+[Getting started](../guides/getting-started.md). The Python package is
+available from GitHub Releases. Installing the package and running
 `workflow-ledger init` do not install or configure Codex hooks. The local
 plugin distribution path is separate; the source-checkout packaging steps below
-are for development and evaluation, not a released consumer install path.
+are for development and evaluation; a released Codex plugin archive is not
+available yet.
 
 ## Contents
 
