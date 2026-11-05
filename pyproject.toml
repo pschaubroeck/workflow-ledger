@@ -8,7 +8,7 @@ dynamic = ["version"]
 description = "Local workflow ledger with optional OpenTelemetry export"
 readme = "README.md"
 requires-python = ">=3.10"
-license = "0BSD"
+license = "MIT"
 license-files = ["LICENSE"]
 dependencies = []
 
