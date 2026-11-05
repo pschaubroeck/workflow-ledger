@@ -1,5 +1,9 @@
 # Workflow Ledger
 
+[![CI](https://github.com/pschaubroeck/workflow-ledger/actions/workflows/ci.yml/badge.svg)](https://github.com/pschaubroeck/workflow-ledger/actions/workflows/ci.yml)
+![Python 3.10–3.14 tested](https://img.shields.io/badge/python-3.10%E2%80%933.14%20tested-3776AB?logo=python&logoColor=white)
+![Core runtime dependencies: 0](https://img.shields.io/badge/core_runtime_dependencies-0-2ea44f)
+
 Measure agent workflows as linked operations: workflows, agents, skills, model
 calls, tools, and explicit waits. The core is a zero-dependency Python library
 that records operational metadata locally. Optional adapters attach supported
