@@ -6,42 +6,36 @@ description: Build versioned Workflow Ledger wheel and source archives and attac
 
 # Build and release package artifacts
 
-This guide builds a Python wheel and source archive for download from GitHub
-Releases. PyPI publishing is not configured.
+This guide releases a Python wheel and source archive through GitHub Releases.
+PyPI publishing is not configured. The `v0.3.0` release was published
+manually; subsequent releases use the automated workflow below.
 
 ## Before a release
 
 - Choose a version and confirm the target changes are on `main`.
-- Confirm the GitHub Actions checks pass for the release commit.
 - Review the [compatibility reference](../reference/compatibility.md) and
   update it if supported behavior or dependencies changed.
 - Confirm the project license and package metadata are correct.
 
-## Build the artifacts
+## Create a draft release
 
-The package version comes from the Git tag. For a `0.3.0` release, create and
-push the `v0.3.0` tag on the verified commit, then build from that tagged tree:
+Use GitHub's Releases page to create the next release and tag:
 
-```text
-git switch main
-git pull --ff-only
-git tag v0.3.0
-git push origin v0.3.0
-git switch --detach v0.3.0
-python3 -m pip install build
-python3 -m build
-```
+1. Choose **Draft a new release**.
+2. Enter the version tag, such as `v0.3.1`, and choose **Create new tag**.
+3. Set the target to `main`, add release notes, and choose **Save draft**.
 
-The build creates a `.whl` and `.tar.gz` file in `dist/`. Review the filenames
-and verify the license is included in the source archive and package metadata.
+Creating the tag starts GitHub Actions. The workflow runs the test matrix,
+Ruff, and the installed-package smoke checks. After those jobs pass, it builds
+the wheel and source archive, validates them with Twine, attaches both files
+to the draft, and publishes the release.
 
-## Publish a GitHub release
+## Monitor the release
 
-Create a GitHub Release for the existing version tag, include concise release
-notes, and attach both files from `dist/`. GitHub also provides source-code
-archives for the tag. Users can download the wheel and install it with
-`python -m pip install /path/to/downloaded-wheel.whl`.
+Follow the run in the repository's **Actions** tab. If a check fails, the
+release remains a draft. Fix the issue and rerun the failed workflow from
+Actions; publish only after the checks and artifact upload finish successfully.
 
-The current GitHub Actions workflow checks builds but does not publish or attach
-release artifacts. Package-index publication and automated release uploads are
-outside this process.
+Users can download the wheel from the published release and install it with
+`python -m pip install /path/to/downloaded-wheel.whl`. Package-index
+publication remains a separate decision.

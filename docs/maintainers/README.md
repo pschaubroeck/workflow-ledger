@@ -24,8 +24,9 @@ runtime paths are documented in the [compatibility reference](../reference/compa
 
 ## Release
 
-- [Release the Python package](releasing.md) — prepare a version and verify a
-  GitHub release. Package-index publishing remains a separate decision.
+- [Release the Python package](releasing.md) — create a draft release in GitHub
+  and let Actions build, verify, and publish it. Package-index publishing
+  remains a separate decision.
 
 ## Product identity
 
